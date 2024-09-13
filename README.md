@@ -1,6 +1,6 @@
 # react-native-sortable-dynamic
 
-![Demo](![ScreenRecording2024-09-13at16 16 14-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f5f0681c-2ebf-45e7-a329-970c93383944)
+(![ScreenRecording2024-09-13at16 16 14-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f5f0681c-2ebf-45e7-a329-970c93383944)
 
 `react-native-sortable-dynamic` is a highly customizable, drag-and-drop library for creating sortable grid and list layouts in React Native. It provides smooth animations and supports reordering items in a dynamic, flexible layout. Ideal for creating dashboards, photo galleries, task boards, and more, with easy-to-use configuration options for both grid and list layouts.
 
