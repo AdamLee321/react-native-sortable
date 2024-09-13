@@ -5,14 +5,14 @@ This package provides a highly customizable, animated, and performant sortable g
 ## Installation
 
 ```sh
-npm install react-native-sortable
+npm install react-native-sortable-dynamic
 ```
 
 ## Usage
 
 
 ```js
-import { multiply } from 'react-native-sortable';
+import { multiply } from 'react-native-sortable-dynamic';
 
 // ...
 
