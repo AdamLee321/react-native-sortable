@@ -20,7 +20,9 @@ First, install the package:
 
 ```bash
 npm install react-native-sortable-dynamic
+```
 # or
+```bash
 yarn add react-native-sortable-dynamic
 ```
 
@@ -28,7 +30,9 @@ You'll also need to install dependencies like react-native-reanimated and react-
 
 ```bash
 npm install react-native-reanimated react-native-gesture-handler
+```
 # or
+```bash
 yarn add react-native-reanimated react-native-gesture-handler
 ```
 
