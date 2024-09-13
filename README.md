@@ -72,10 +72,10 @@ export default App;
 
 ## Roadmap
 
-✅ Support for grid layouts
-✅ Support for list layouts
-🔜 Add more customization options for animations and gestures
-🔜 Provide support for lists
+- ✅ Support for grid layouts
+- ✅ Support for list layouts
+- 🔜 Add more customization options for animations and gestures
+- 🔜 Provide support for lists
 
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
