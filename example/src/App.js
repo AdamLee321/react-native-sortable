@@ -4,7 +4,7 @@ import {
   SortableListProvider,
   SortableList,
   Tile,
-} from 'react-native-sortable';
+} from 'react-native-sortable-dynamic';
 
 const tiles = [
   { id: 1, text: 'Tile 1' },
