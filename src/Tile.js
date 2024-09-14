@@ -8,6 +8,7 @@ const Tile = ({ onPress, onLongPress, activeOpacity = 0.7, children }) => {
   const containerStyle = {
     width: SIZE,
     height: SIZE,
+    backgroundColor: 'rgba(0, 0, 255, 0.2)',
   };
 
   return (
