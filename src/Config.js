@@ -36,6 +36,7 @@ export const getOrder = (tx, ty, max, COL, SIZE) => {
   return Math.min(row * COL + col, max);
 };
 
+console.log('INIT ++++++++++++');
 const SortableListProvider = ({ children, config }) => {
   const mergedConfig = {
     ...defaultConfig,
