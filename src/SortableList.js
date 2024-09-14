@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-import { View, Text } from 'react-native';
 import Animated, {
   useAnimatedRef,
   useAnimatedScrollHandler,
@@ -10,8 +9,6 @@ import { useSortableConfig } from './Config';
 
 const SortableList = ({ children, editing, tiles, onDragEnd }) => {
   const { COL, SIZE } = useSortableConfig();
-
-  console.log('SortableList COL:', COL, 'SIZE:', SIZE);
 
   const scrollY = useSharedValue(0);
   const scrollView = useAnimatedRef();
@@ -28,12 +25,6 @@ const SortableList = ({ children, editing, tiles, onDragEnd }) => {
     },
   });
 
-  console.log('Rendering SortableList with:', {
-    COL,
-    SIZE,
-    childrenCount: children.length,
-  });
-
   return (
     <Animated.ScrollView
       onScroll={onScroll}
@@ -44,16 +35,23 @@ const SortableList = ({ children, editing, tiles, onDragEnd }) => {
       showsVerticalScrollIndicator={false}
       bounces={false}
       scrollEventThrottle={16}
-      style={{ backgroundColor: 'blue' }}
     >
-      {children.map((child) => {
-        console.log('Rendering child:', child.props.id);
-        return (
-          <View style={{ height: SIZE, width: SIZE, backgroundColor: 'red' }}>
-            <Text>{child.props.id}</Text>
-          </View>
-        );
-      })}
+      {children.map((child) => (
+        <Item
+          key={child.props.id}
+          id={child.props.id}
+          positions={positions}
+          editing={editing}
+          draggable={child.props.draggable}
+          reorderable={child.props.reorderable}
+          tiles={tiles}
+          onDragEnd={onDragEnd}
+          scrollView={scrollView}
+          scrollY={scrollY}
+        >
+          {child}
+        </Item>
+      ))}
     </Animated.ScrollView>
   );
 };
