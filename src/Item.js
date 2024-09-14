@@ -61,7 +61,7 @@ const Item = ({
       if (editing && draggable) {
         ctx.x = translateX.value;
         ctx.y = translateY.value;
-        isGestureActive.value = true;
+        isGestureActive.value = false; // TODO: Set to false when grouping is implemented
       }
     },
     onActive: ({ translationX, translationY }, ctx) => {
@@ -119,7 +119,7 @@ const Item = ({
     },
     onEnd: () => {
       if (draggable) {
-        const newPosition = getPosition(positions.value[id], COL, SIZE); // Pass COL and SIZE dynamically
+        const newPosition = getPosition(positions.value[id], COL, SIZE);
         translateX.value = withTiming(newPosition.x, animationConfig, () => {
           isGestureActive.value = false;
           runOnJS(onDragEnd)(positions.value);
