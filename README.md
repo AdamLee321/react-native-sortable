@@ -22,7 +22,7 @@
 npm install react-native-sortable-dynamic
 ```
 
-##### or
+#### or
 
 ```bash
 yarn add react-native-sortable-dynamic
@@ -36,7 +36,7 @@ You'll also need to install dependencies like react-native-reanimated and react-
 npm install react-native-reanimated react-native-gesture-handler
 ```
 
-##### or
+#### or
 
 ```bash
 yarn add react-native-reanimated react-native-gesture-handler
