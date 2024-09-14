@@ -43,6 +43,8 @@ const SortableListProvider = ({ children, config }) => {
   };
   mergedConfig.SIZE = width / mergedConfig.COL - mergedConfig.MARGIN;
 
+  console.log('SortableListProvider mergedConfig:', mergedConfig);
+
   return (
     <ConfigContext.Provider value={mergedConfig}>
       {children}
