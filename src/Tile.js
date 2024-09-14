@@ -1,18 +1,18 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { SIZE } from './Config';
-
-const styles = StyleSheet.create({
-  container: {
-    width: SIZE,
-    height: SIZE,
-  },
-});
+import { TouchableOpacity } from 'react-native';
+import { useSortableConfig } from './Config';
 
 const Tile = ({ onPress, onLongPress, activeOpacity = 0.7, children }) => {
+  const { SIZE } = useSortableConfig();
+
+  const containerStyle = {
+    width: SIZE,
+    height: SIZE,
+  };
+
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={containerStyle}
       onPress={onPress}
       onLongPress={onLongPress}
       activeOpacity={activeOpacity}

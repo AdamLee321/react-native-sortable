@@ -71,3 +71,5 @@ const App = () => {
     </SortableListProvider>
   );
 };
+
+export default App;
