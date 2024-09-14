@@ -36,7 +36,7 @@ export const getOrder = (tx, ty, max, COL, SIZE) => {
   return Math.min(row * COL + col, max);
 };
 
-export const SortableListProvider = ({ children, config }) => {
+const SortableListProvider = ({ children, config }) => {
   const mergedConfig = {
     ...defaultConfig,
     ...config,
@@ -49,3 +49,5 @@ export const SortableListProvider = ({ children, config }) => {
     </ConfigContext.Provider>
   );
 };
+
+export default SortableListProvider;
