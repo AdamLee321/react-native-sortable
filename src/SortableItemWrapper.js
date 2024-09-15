@@ -1,32 +1,53 @@
-"use strict";
-
 import React, { useEffect } from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useAnimatedReaction, withSpring, scrollTo, withTiming, useSharedValue, runOnJS } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useAnimatedReaction,
+  withSpring,
+  scrollTo,
+  withTiming,
+  useSharedValue,
+  runOnJS,
+} from 'react-native-reanimated';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { animationConfig, getOrder, getPosition } from "./Config.js";
-import { useSortableConfig } from "./Config.js";
+import { animationConfig, getOrder, getPosition } from './Config';
+import { useSortableConfig } from './Config';
 
 /**
- * Item Component
+ * SortableItemWrapper Component
  *
- * This component represents a draggable item in the sortable grid. It manages the gesture handling
- * and animations needed to drag and reorder the item within the grid.
+ * This component manages the gesture handling and animations for a draggable item in the sortable grid or list.
+ * It uses the Reanimated 2 and Gesture Handler libraries to provide smooth drag-and-drop functionality.
+ * The component calculates the item's position and handles reordering logic when the item is dragged.
  *
  * Props:
- * @param {React.ReactNode} children - The content to render inside the item.
+ * @param {React.ReactNode} children - The content to render inside the draggable item.
  * @param {object} positions - Shared value that contains the current positions of all items.
  * @param {number} id - Unique identifier for the item.
- * @param {function} onDragEnd - Callback function triggered when dragging ends.
- * @param {object} scrollView - Reference to the scroll view for scrolling during drag.
+ * @param {function} onDragEnd - Callback function triggered when dragging ends, providing the updated item positions.
+ * @param {object} scrollView - Reference to the scroll view for scrolling the list during drag.
  * @param {object} scrollY - Shared value representing the current scroll position.
- * @param {boolean} editing - Whether the list is in editing mode.
+ * @param {boolean} editing - Whether the grid or list is in editing mode, enabling drag-and-drop.
  * @param {boolean} draggable - Whether the item is draggable (default: true).
- * @param {Array} tiles - Array of tile items used to check reorderable state.
+ * @param {Array} data - Array of items used to determine the reorderable state of items.
+ *
+ * Usage:
+ * <SortableItemWrapper
+ *   id={item.id}
+ *   positions={positions}
+ *   editing={isEditing}
+ *   draggable={item.draggable}
+ *   data={itemsArray}
+ *   onDragEnd={handleDragEnd}
+ *   scrollView={scrollView}
+ *   scrollY={scrollY}
+ * >
+ *   <YourItemComponent />
+ * </SortableItemWrapper>
  */
-import { jsx as _jsx } from "react/jsx-runtime";
-const Item = ({
+const SortableItemWrapper = ({
   children,
   positions,
   id,
@@ -35,22 +56,19 @@ const Item = ({
   scrollY,
   editing,
   draggable = true,
-  tiles
+  data,
 }) => {
   // Get safe area insets for accurate height calculation
   const inset = useSafeAreaInsets();
-  const containerHeight = Dimensions.get('window').height - inset.top - inset.bottom;
+  const containerHeight =
+    Dimensions.get('window').height - inset.top - inset.bottom;
 
   // Get the configuration for columns and size
-  const {
-    COL,
-    SIZE,
-    MARGIN
-  } = useSortableConfig();
+  const { COL, SIZE, MARGIN } = useSortableConfig();
 
   // Calculate content height based on the number of items
-  const contentHeight = Object.keys(positions.value).length / COL * SIZE;
-  const isGestureActive = useSharedValue(false); // Whether the item is being actively dragged
+  const contentHeight = (Object.keys(positions.value).length / COL) * SIZE;
+  const isGestureActive = useSharedValue(false); // Whether the item is actively being dragged
 
   // Calculate initial position of the item
   const position = getPosition(positions.value[id], COL, SIZE);
@@ -65,15 +83,16 @@ const Item = ({
   }, [editing, isGestureActive]);
 
   // React to changes in the positions object
-  useAnimatedReaction(() => positions.value[id],
-  // Track changes to this item's position
-  newOrder => {
-    if (!isGestureActive.value) {
-      const pos = getPosition(newOrder, COL, SIZE);
-      translateX.value = withTiming(pos.x, animationConfig);
-      translateY.value = withTiming(pos.y, animationConfig);
+  useAnimatedReaction(
+    () => positions.value[id], // Track changes to this item's position
+    (newOrder) => {
+      if (!isGestureActive.value) {
+        const pos = getPosition(newOrder, COL, SIZE);
+        translateX.value = withTiming(pos.x, animationConfig);
+        translateY.value = withTiming(pos.y, animationConfig);
+      }
     }
-  });
+  );
 
   // Gesture handler for dragging
   const onGestureEvent = useAnimatedGestureHandler({
@@ -82,31 +101,35 @@ const Item = ({
         // Store the starting position
         ctx.x = translateX.value;
         ctx.y = translateY.value;
-        isGestureActive.value = false; // TODO: Set to false when grouping is implemented
+        isGestureActive.value = false;
       }
     },
-    onActive: ({
-      translationX,
-      translationY
-    }, ctx) => {
+    onActive: ({ translationX, translationY }, ctx) => {
       if (editing && draggable) {
         // Calculate new position
         translateX.value = ctx.x + translationX;
         translateY.value = ctx.y + translationY;
 
         // Calculate new order based on position
-        const newOrder = getOrder(translateX.value, translateY.value, Object.keys(positions.value).length - 1, COL, SIZE);
+        const newOrder = getOrder(
+          translateX.value,
+          translateY.value,
+          Object.keys(positions.value).length - 1,
+          COL,
+          SIZE
+        );
+
         const oldOrder = positions.value[id];
         if (newOrder !== oldOrder) {
           // Find the item to swap positions with
-          const idToSwap = Object.keys(positions.value).find(key => positions.value[key] === newOrder);
+          const idToSwap = Object.keys(positions.value).find(
+            (key) => positions.value[key] === newOrder
+          );
 
           // Only swap if the target item is reorderable
-          const targetItem = tiles.find(tile => tile.id === Number(idToSwap));
+          const targetItem = data.find((tile) => tile.id === Number(idToSwap));
           if (idToSwap && targetItem?.reorderable !== false) {
-            const newPositions = {
-              ...positions.value
-            };
+            const newPositions = { ...positions.value };
             newPositions[id] = newOrder;
             newPositions[idToSwap] = oldOrder;
             positions.value = newPositions;
@@ -129,7 +152,10 @@ const Item = ({
         }
         // Scroll down
         if (translateY.value > upperBound) {
-          const diff = Math.min(translateY.value - upperBound, leftToScrollDown);
+          const diff = Math.min(
+            translateY.value - upperBound,
+            leftToScrollDown
+          );
           scrollY.value += diff;
           scrollTo(scrollView, 0, scrollY.value, false);
           ctx.y += diff;
@@ -147,13 +173,14 @@ const Item = ({
         });
         translateY.value = withTiming(newPosition.y, animationConfig);
       }
-    }
+    },
   });
 
   // Animated style for the item
   const style = useAnimatedStyle(() => {
-    const zIndex = isGestureActive.value ? 100 : 0; // Bring the item to front when active
-    const scale = editing && isGestureActive.value ? withSpring(1.05) : withSpring(1); // Slightly enlarge the item when dragging
+    const zIndex = isGestureActive.value ? 100 : 0; // Bring the item to the front when active
+    const scale =
+      editing && isGestureActive.value ? withSpring(1.05) : withSpring(1); // Slightly enlarge the item when dragging
     return {
       position: 'absolute',
       top: 0,
@@ -162,26 +189,23 @@ const Item = ({
       height: SIZE,
       margin: MARGIN,
       zIndex,
-      transform: [{
-        translateX: translateX.value
-      }, {
-        translateY: translateY.value
-      }, {
-        scale
-      }]
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value },
+        { scale },
+      ],
     };
   });
-  return /*#__PURE__*/_jsx(Animated.View, {
-    style: style,
-    children: /*#__PURE__*/_jsx(PanGestureHandler, {
-      enabled: editing,
-      onGestureEvent: onGestureEvent,
-      children: /*#__PURE__*/_jsx(Animated.View, {
-        style: StyleSheet.absoluteFill,
-        children: children
-      })
-    })
-  });
+
+  return (
+    <Animated.View style={style}>
+      <PanGestureHandler enabled={editing} onGestureEvent={onGestureEvent}>
+        <Animated.View style={StyleSheet.absoluteFill}>
+          {children}
+        </Animated.View>
+      </PanGestureHandler>
+    </Animated.View>
+  );
 };
-export default Item;
-//# sourceMappingURL=Item.js.map
+
+export default SortableItemWrapper;

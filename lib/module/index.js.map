@@ -1,1 +1,1 @@
-{"version":3,"names":["default","SortableListProvider","SortableList","Tile"],"sourceRoot":"../../src","sources":["index.js"],"mappings":";;AAAA,SAASA,OAAO,IAAIC,oBAAoB,QAAQ,aAAU;AAC1D,SAASD,OAAO,IAAIE,YAAY,QAAQ,mBAAgB;AACxD,SAASF,OAAO,IAAIG,IAAI,QAAQ,WAAQ","ignoreList":[]}
+{"version":3,"names":["default","SortableView"],"sourceRoot":"../../src","sources":["index.js"],"mappings":";;AAAA,SAASA,OAAO,IAAIC,YAAY,QAAQ,mBAAgB","ignoreList":[]}

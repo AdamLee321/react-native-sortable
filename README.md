@@ -100,49 +100,57 @@ Here's a simple example of how to use `react-native-sortable-dynamic` in your Re
 ```jsx
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import {
-  SortableListProvider,
-  SortableList,
-  Tile,
-} from 'react-native-sortable-dynamic';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SortableView from 'react-native-sortable-dynamic';
 
-const tiles = [
+const data = [
   { id: 1, text: 'Tile 1' },
   { id: 2, text: 'Tile 2' },
   { id: 3, text: 'Tile 3' },
-  { id: 4, text: 'Tile 4' },
+  { id: 4, text: 'Tile 4', reorderable: false },
 ];
 
 const App = () => {
   const [enableEditing, setEnableEditing] = useState(false);
 
+  const handleLongPress = () => {
+    setEnableEditing((prev) => !prev);
+  };
+
+  const renderItem = ({ item, index }) => (
+    <View
+      key={`${item.id}-${index}`}
+      style={{
+        backgroundColor: 'red',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        margin: 10,
+        opacity:
+          enableEditing &&
+          item.draggable !== false &&
+          item.reorderable !== false
+            ? 0.5
+            : 1,
+      }}
+    >
+      <Text style={{ color: 'white', fontSize: 20 }}>{item.text}</Text>
+    </View>
+  );
+
   return (
-    <SortableListProvider config={{ MARGIN: 10, COL: 2 }}>
-      <SortableList
-        tiles={tiles}
+    <SafeAreaView style={{ flex: 1 }}>
+      <SortableView
+        config={{ MARGIN: 10, COL: 2 }}
+        data={data}
         editing={enableEditing}
         onDragEnd={(positions) => console.log(positions)}
-      >
-        {tiles.map((tile) => (
-          <Tile
-            key={tile.id}
-            id={tile.id}
-            onLongPress={() => setEnableEditing(!enableEditing)}
-          >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'red',
-              }}
-            >
-              <Text style={{ color: 'white', fontSize: 20 }}>{tile.text}</Text>
-            </View>
-          </Tile>
-        ))}
-      </SortableList>
-    </SortableListProvider>
+        renderItem={renderItem}
+        onPress={handleLongPress}
+        onLongPress={handleLongPress}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -151,34 +159,30 @@ export default App;
 
 ### Props
 
-#### `SortableListProvider`
+#### `SortableView`
 
-| Prop     | Type     | Description                                                                                       |
-| -------- | -------- | ------------------------------------------------------------------------------------------------- |
-| `config` | `object` | Configuration options such as `MARGIN` and `COL`. Use this to dynamically adjust the grid layout. |
+| Prop          | Type       | Description                                                                                        |
+| ------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| `config`      | `object`   | Configuration options such as `MARGIN` and `COL`. Use this to dynamically adjust the grid layout.  |
+| `data`        | `array`    | Array of items to be rendered and sorted.                                                          |
+| `editing`     | `boolean`  | If true, allows items to be dragged and reordered.                                                 |
+| `onDragEnd`   | `function` | Callback function that receives updated positions when the drag ends.                              |
+| `renderItem`  | `function` | Function to render each item inside the sortable container. Receives item and index as parameters. |
+| `onPress`     | `function` | Function to handle the press event on a sortable item.                                             |
+| `onLongPress` | `function` | Function to handle the long press event on a sortable item.                                        |
+| `itemStyle`   | `object`   | Custom style to apply to each SortableItem.                                                        |
+| `itemProps`   | `object`   | Additional props to be passed to each SortableItem.                                                |
 
-#### `SortableList`
+### Note
 
-| Prop        | Type       | Description                                                           |
-| ----------- | ---------- | --------------------------------------------------------------------- |
-| `tiles`     | `array`    | Array of items to be rendered and sorted.                             |
-| `editing`   | `boolean`  | If true, allows items to be dragged and reordered.                    |
-| `onDragEnd` | `function` | Callback function that receives updated positions when the drag ends. |
-
-#### `Tile`
-
-| Prop            | Type       | Description                                                   |
-| --------------- | ---------- | ------------------------------------------------------------- |
-| `onPress`       | `function` | Function called when the tile is pressed.                     |
-| `onLongPress`   | `function` | Function called when the tile is long-pressed.                |
-| `activeOpacity` | `number`   | The opacity of the tile when it is pressed. Default is `0.7`. |
+renderItem function will receive the item and index as parameters, allowing you to customize the rendering of each item.
 
 ## Roadmap
 
 - ✅ Support for grid layouts
+- ✅ Improve accessibility and performance
 - 🔜 Support for list layouts
 - 🔜 Add more customization options for animations and gestures
-- 🔜 Improve accessibility and performance
 
 ## License
 
