@@ -5,15 +5,14 @@ import React, { createContext, useContext } from 'react';
 // Get screen width to calculate dynamic sizes
 const { width } = Dimensions.get('window');
 
-// Default configuration for the sortable list
+// Default configuration for the sortable grid/list
 const defaultConfig = {
   MARGIN: 10, // Default margin between items
   COL: 2, // Default number of columns
-  // Default size for each item, calculated based on the number of columns and margin
-  SIZE: width / 2 - 10, // (width / COL - MARGIN)
+  SIZE: width / 2 - 10, // Default size for each item, calculated based on the number of columns and margin
 };
 
-// Create a Context for the sortable list configuration
+// Create a Context for the sortable grid/list configuration
 const ConfigContext = createContext(defaultConfig);
 
 // Custom hook to use the sortable configuration context
@@ -26,7 +25,7 @@ export const animationConfig = {
 };
 
 // Helper function to calculate the item's position based on its index
-// This is used to position items in a grid layout
+// Used to position items in a grid layout
 export const getPosition = (position, COL, SIZE) => {
   'worklet'; // Necessary for Reanimated 2 to run this function on the UI thread
   return {
@@ -46,9 +45,10 @@ export const getOrder = (tx, ty, max, COL, SIZE) => {
 };
 
 /**
- * SortableListProvider component
+ * SortableConfigProvider component
  *
- * Wrap your sortable list components with this provider to set custom configuration.
+ * Wrap your sortable grid/list components with this provider to set custom configuration.
+ * This provider allows for overriding default settings like margin and the number of columns.
  *
  * @param {Object} config - Custom configuration to override the default settings.
  * @param {number} config.MARGIN - Margin between items.
@@ -57,11 +57,11 @@ export const getOrder = (tx, ty, max, COL, SIZE) => {
  *
  * Usage:
  *
- * <SortableListProvider config={{ MARGIN: 15, COL: 3 }}>
- *   <YourSortableList />
- * </SortableListProvider>
+ * <SortableConfigProvider config={{ MARGIN: 15, COL: 3 }}>
+ *   <YourSortableComponent />
+ * </SortableConfigProvider>
  */
-const SortableListProvider = ({ children, config }) => {
+const SortableConfigProvider = ({ children, config }) => {
   // Merge custom config with the default configuration
   const mergedConfig = {
     ...defaultConfig,
@@ -78,4 +78,4 @@ const SortableListProvider = ({ children, config }) => {
   );
 };
 
-export default SortableListProvider;
+export default SortableConfigProvider;
