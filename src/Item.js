@@ -50,7 +50,7 @@ const Item = ({
     Dimensions.get('window').height - inset.top - inset.bottom;
 
   // Get the configuration for columns and size
-  const { COL, SIZE } = useSortableConfig();
+  const { COL, SIZE, MARGIN } = useSortableConfig();
 
   // Calculate content height based on the number of items
   const contentHeight = (Object.keys(positions.value).length / COL) * SIZE;
@@ -173,6 +173,7 @@ const Item = ({
       left: 0,
       width: SIZE,
       height: SIZE,
+      margin: MARGIN,
       zIndex,
       transform: [
         { translateX: translateX.value },
