@@ -101,7 +101,7 @@ Here's a simple example of how to use `react-native-sortable-dynamic` in your Re
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import SortableView from 'react-native-sortable-dynamic';
+import { SortableView } from 'react-native-sortable-dynamic';
 
 const data = [
   { id: 1, text: 'Tile 1' },

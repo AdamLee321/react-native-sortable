@@ -78,8 +78,8 @@ const SortableContainer = ({
       {/* Render each item using the SortableItemWrapper and SortableItem components */}
       {data.map((item, index) => (
         <SortableItemWrapper
-          key={item.id}
-          id={item.id}
+          key={item.id.toString()}
+          id={item.id.toString()}
           positions={positions}
           editing={editing}
           draggable={item.draggable}
@@ -91,7 +91,7 @@ const SortableContainer = ({
         >
           {/* Render each sortable item using SortableItem */}
           <SortableItem
-            id={item.id}
+            id={item.id.toString()}
             draggable={item.draggable}
             reorderable={item.reorderable}
             onPress={() => onPress && onPress(item)}
