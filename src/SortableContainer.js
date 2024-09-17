@@ -22,6 +22,8 @@ import { useSortableConfig } from './Config';
  * @param {function} renderItem - Function to render the content of each item inside the sortable container. Receives an object containing `item` and `index`.
  * @param {function} onPress - Function to handle the press event on a sortable item.
  * @param {function} onLongPress - Function to handle the long press event on a sortable item.
+ * @param {object} scrollContainerStyle - Custom style to apply to the scroll container.
+ * @param {object} scrollContentContainerStyle - Custom style to apply to the scroll content container.
  * @param {object} itemStyle - Custom style to apply to each SortableItem.
  * @param {...object} itemProps - Additional props to be passed to each SortableItem.
  *
@@ -43,6 +45,8 @@ const SortableContainer = ({
   renderItem,
   onPress,
   onLongPress,
+  scrollContainerStyle,
+  scrollContentContainerStyle,
   itemStyle,
   ...itemProps
 }) => {
@@ -67,13 +71,17 @@ const SortableContainer = ({
     <Animated.ScrollView
       onScroll={onScroll}
       ref={scrollView}
-      contentContainerStyle={{
-        // Calculate the total height needed for the scroll view content
-        height: Math.ceil(data.length / COL) * SIZE,
-      }}
+      contentContainerStyle={[
+        {
+          // Calculate the total height needed for the scroll view content
+          height: Math.ceil(data.length / COL) * SIZE,
+        },
+        scrollContentContainerStyle,
+      ]}
       showsVerticalScrollIndicator={false}
       bounces={false}
-      scrollEventThrottle={16} // Control scroll event frequency
+      scrollEventThrottle={16}
+      style={scrollContainerStyle}
     >
       {/* Render each item using the SortableItemWrapper and SortableItem components */}
       {data.map((item, index) => (
