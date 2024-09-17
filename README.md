@@ -161,17 +161,19 @@ export default App;
 
 #### `SortableView`
 
-| Prop          | Type       | Description                                                                                        |
-| ------------- | ---------- | -------------------------------------------------------------------------------------------------- |
-| `config`      | `object`   | Configuration options such as `MARGIN` and `COL`. Use this to dynamically adjust the grid layout.  |
-| `data`        | `array`    | Array of items to be rendered and sorted.                                                          |
-| `editing`     | `boolean`  | If true, allows items to be dragged and reordered.                                                 |
-| `onDragEnd`   | `function` | Callback function that receives updated positions when the drag ends.                              |
-| `renderItem`  | `function` | Function to render each item inside the sortable container. Receives item and index as parameters. |
-| `onPress`     | `function` | Function to handle the press event on a sortable item.                                             |
-| `onLongPress` | `function` | Function to handle the long press event on a sortable item.                                        |
-| `itemStyle`   | `object`   | Custom style to apply to each SortableItem.                                                        |
-| `itemProps`   | `object`   | Additional props to be passed to each SortableItem.                                                |
+| Prop                          | Type       | Description                                                                                        |
+| ----------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
+| `config`                      | `object`   | Configuration options such as `MARGIN` and `COL`. Use this to dynamically adjust the grid layout.  |
+| `data`                        | `array`    | Array of items to be rendered and sorted.                                                          |
+| `editing`                     | `boolean`  | If true, allows items to be dragged and reordered.                                                 |
+| `onDragEnd`                   | `function` | Callback function that receives updated positions when the drag ends.                              |
+| `renderItem`                  | `function` | Function to render each item inside the sortable container. Receives item and index as parameters. |
+| `onPress`                     | `function` | Function to handle the press event on a sortable item.                                             |
+| `onLongPress`                 | `function` | Function to handle the long press event on a sortable item.                                        |
+| `itemStyle`                   | `object`   | Custom style to apply to each SortableItem.                                                        |
+| `itemProps`                   | `object`   | Additional props to be passed to each SortableItem.                                                |
+| `scrollContainerStyle`        | `object`   | Custom style to apply to the scroll container.                                                     |
+| `scrollContentContainerStyle` | `object`   | Custom style to apply to the scroll content container.                                             |
 
 ### Note
 

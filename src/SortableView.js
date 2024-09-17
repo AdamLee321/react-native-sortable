@@ -17,6 +17,8 @@ import SortableContainer from './SortableContainer';
  * @param {function} renderItem - Function to render each item inside the sortable view. Receives an object containing `item` and `index`.
  * @param {function} onPress - Function to handle the press event on an item.
  * @param {function} onLongPress - Function to handle the long press event on an item.
+ * @param {object} scrollContainerStyle - Custom style to apply to the scroll container.
+ * @param {object} scrollContentContainerStyle - Custom style to apply to the scroll content container.
  * @param {object} itemStyle - Custom style to apply to each SortableItem.
  * @param {object} itemProps - Additional props to be passed to each SortableItem.
  *
@@ -41,6 +43,8 @@ const SortableView = ({
   renderItem,
   onPress,
   onLongPress,
+  scrollContainerStyle,
+  scrollContentContainerStyle,
   itemStyle,
   itemProps,
 }) => {
@@ -55,6 +59,8 @@ const SortableView = ({
         renderItem={renderItem}
         onPress={onPress}
         onLongPress={onLongPress}
+        scrollContainerStyle={scrollContainerStyle}
+        scrollContentContainerStyle={scrollContentContainerStyle}
         style={itemStyle}
         {...itemProps}
       />
